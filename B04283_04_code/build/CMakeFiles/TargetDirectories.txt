@@ -1,0 +1,3 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_04_code/build/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_04_code/build/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_04_code/build/CMakeFiles/Chapter4_Phototool.dir
