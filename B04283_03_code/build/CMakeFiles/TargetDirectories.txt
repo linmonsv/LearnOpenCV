@@ -1,0 +1,9 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample6.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample5.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample3.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample4.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample2.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/ch3_sample1.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_03_code/build/CMakeFiles/Photo_Tool.dir
