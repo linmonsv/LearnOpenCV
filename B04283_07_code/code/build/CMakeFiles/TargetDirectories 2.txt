@@ -1,0 +1,7 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/OverlaySunglasses.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/EarDectector.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/OverlayMoustache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/OverlayNose.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_07_code/code/build/CMakeFiles/OverlayFacemask.dir
