@@ -9,7 +9,7 @@ using namespace std;
 using namespace cv;
 using namespace cv::text;
 
-vector<Mat> separateChannels(Mat& src) 
+vector<Mat> separateChannels(Mat& src)
 {
 	vector<Mat> channels;
 	//Grayscale images
@@ -30,12 +30,12 @@ vector<Mat> separateChannels(Mat& src)
 
 	//Other types
 	cout << "Invalid image format!" << endl;
-	exit(-1);	
+	exit(-1);
 }
 
 int main(int argc, const char * argv[])
 {
-	char* image = argc < 2 ? "easel.png" : argv[1];    
+	const char* image = argc < 2 ? "easel.png" : argv[1];
     auto input = imread(image);
 
 	//Convert the input image to grayscale.
@@ -56,8 +56,8 @@ int main(int argc, const char * argv[])
     {
 		cout << "    Channel " << (c+1) << endl;
         filter1->run(channels[c], regions[c]);
-        filter2->run(channels[c], regions[c]);		
-    }    
+        filter2->run(channels[c], regions[c]);
+    }
     filter1.release();
     filter2.release();
 
@@ -67,7 +67,7 @@ int main(int argc, const char * argv[])
     erGrouping(input, channels, regions, groups, groupRects, ERGROUPING_ORIENTATION_HORIZ);
     //erGrouping(input, channels, regions, groups, groupRects, ERGROUPING_ORIENTATION_ANY, "trained_classifier_erGrouping.xml", 0.5);
 
-    // draw groups boxes	
+    // draw groups boxes
 	for (auto rect : groupRects)
 		rectangle(input, rect, Scalar(0, 255, 0), 3);
 

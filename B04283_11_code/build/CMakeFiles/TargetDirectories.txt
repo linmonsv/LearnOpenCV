@@ -1,0 +1,4 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_11_code/build/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_11_code/build/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_11_code/build/CMakeFiles/Detection.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_11_code/build/CMakeFiles/Ocr.dir

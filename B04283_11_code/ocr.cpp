@@ -9,7 +9,7 @@ using namespace std;
 using namespace cv;
 using namespace cv::text;
 
-vector<Mat> separateChannels(Mat& src) 
+vector<Mat> separateChannels(Mat& src)
 {
 	vector<Mat> channels;
 	//Grayscale images
@@ -30,10 +30,10 @@ vector<Mat> separateChannels(Mat& src)
 
 	//Other types
 	cout << "Invalid image format!" << endl;
-	exit(-1);	
+	exit(-1);
 }
 
-cv::Ptr<BaseOCR> initOCR(const string& ocr) 
+cv::Ptr<BaseOCR> initOCR(const string& ocr)
 {
 	if (ocr == "hmm") {
 		Mat transitions;
@@ -41,30 +41,32 @@ cv::Ptr<BaseOCR> initOCR(const string& ocr)
 		fs["transition_probabilities"] >> transitions;
 		fs.release();
 
+        /*
 		return OCRHMMDecoder::create(
 			loadOCRHMMClassifierNM("OCRHMM_knn_model_data.xml.gz"),				//Trained models
 			"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",   //Vocabulary
 			transitions,														//Trained transition probabilities
 			Mat::eye(62,62,CV_64FC1));											//Emission probabilities. Identity matrix.
-	} else if (ocr == "tesseract" || ocr == "tess") {		
-		return OCRTesseract::create(nullptr, "eng+por");		
+            */
+	} else if (ocr == "tesseract" || ocr == "tess") {
+		return OCRTesseract::create(nullptr, "eng+por");
 	}
 
-	throw string("Invalid OCR engine: ") + ocr;	
+	throw string("Invalid OCR engine: ") + ocr;
 }
 
 Mat deskewAndCrop(Mat input, const RotatedRect& box)
 {
-	double angle = box.angle;	
+	double angle = box.angle;
 	Size2f size = box.size;
 
 	//Adjust the box angle
-   if (angle < -45.0) 
+   if (angle < -45.0)
 	{
         angle += 90.0;
-        std::swap(size.width, size.height);		
+        std::swap(size.width, size.height);
 	}
-	
+
 	//Rotate the text according to the angle
 	Mat transform = getRotationMatrix2D(box.center, angle, 1.0);
 	Mat rotated;
@@ -85,22 +87,22 @@ Mat drawER(const vector<Mat> &channels, const vector<vector<ERStat> > &regions, 
 		+ (255 << 8)				//paint mask in white (255)
 		+ FLOODFILL_FIXED_RANGE		//fixed range
 		+ FLOODFILL_MASK_ONLY;		//Paint just the mask
-	
+
     for (int g=0; g < group.size(); g++)
     {
-		int idx = group[g][0];		
+		int idx = group[g][0];
         ERStat er = regions[idx][group[g][1]];
 
 		//Ignore root region
-        if (er.parent == NULL) 
+        if (er.parent == NULL)
 			continue;
 
 		//Transform the linear pixel value to row and col
 		int px = er.pixel % channels[idx].cols;
 		int py = er.pixel / channels[idx].cols;
-		
+
 		//Create the point and adds it to the list.
-		Point p(px, py);		
+		Point p(px, py);
 
 		//Draw the extremal region
         floodFill(
@@ -109,13 +111,13 @@ Mat drawER(const vector<Mat> &channels, const vector<vector<ERStat> > &regions, 
 			nullptr,						//No rect
 			Scalar(er.level),Scalar(0),		//LoDiff and upDiff
 			flags							//Flags
-		);		
+		);
     }
-	
+
 	//Crop just the text area and find it's points
 	out = out(rect);
 
-	vector<Point> points;	
+	vector<Point> points;
 	findNonZero(out, points);
 	//Use deskew and crop to crop it perfectly
 	return deskewAndCrop(out, minAreaRect(points));
@@ -123,8 +125,8 @@ Mat drawER(const vector<Mat> &channels, const vector<vector<ERStat> > &regions, 
 
 int main(int argc, const char * argv[])
 {
-	char* image = argc < 2 ? "easel.png" : argv[1];    
-    auto input = imread(image);	
+	const char* image = argc < 2 ? "easel.png" : argv[1];
+    auto input = imread(image);
 
 	//Convert the input image to grayscale.
 	//Just do Mat processed = input; to work with colors.
@@ -144,8 +146,8 @@ int main(int argc, const char * argv[])
     {
 		cout << "    Channel " << (c+1) << endl;
         filter1->run(channels[c], regions[c]);
-        filter2->run(channels[c], regions[c]);		
-    }    
+        filter2->run(channels[c], regions[c]);
+    }
     filter1.release();
     filter2.release();
 
@@ -155,11 +157,11 @@ int main(int argc, const char * argv[])
     erGrouping(input, channels, regions, groups, groupRects, ERGROUPING_ORIENTATION_HORIZ);
     //erGrouping(input, channels, regions, groups, groupRects, ERGROUPING_ORIENTATION_ANY, "trained_classifier_erGrouping.xml", 0.5);
 
-    // text detection	
+    // text detection
 	cout << endl << "Detected text:" << endl;
 	cout << "-------------" << endl;
 	auto ocr = initOCR("tesseract");
-	for (int i = 0; i < groups.size(); i++) 
+	for (int i = 0; i < groups.size(); i++)
 	{
 		 Mat wordImage = drawER(channels, regions, groups[i], groupRects[i]);
 
