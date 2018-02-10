@@ -80,7 +80,7 @@ void plotTrainData(Mat trainData, Mat labels, float *error=NULL)
 
   if(error!=NULL){
     stringstream ss;
-    ss << "Error: " << *error << "\%"; 
+    ss << "Error: " << *error << "\%";
     putText(plot, ss.str().c_str(), Point(20,512-40), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(200,200,200), 1, LINE_AA);
   }
   miw->addImage("Plot", plot);
@@ -90,7 +90,7 @@ void plotTrainData(Mat trainData, Mat labels, float *error=NULL)
 
 /**
 * Extract the features for all objects in one image
-* 
+*
 * @param Mat img input image
 * @param vector<int> left output of left coordinates for each object
 * @param vector<int> top output of top coordintates for each object
@@ -101,7 +101,7 @@ vector< vector<float> > ExtractFeatures(Mat img, vector<int>* left=NULL, vector<
   vector< vector<float> > output;
   vector<vector<Point> > contours;
   Mat input= img.clone();
-  
+
   vector<Vec4i> hierarchy;
   findContours(input, contours, hierarchy, RETR_CCOMP, CHAIN_APPROX_SIMPLE);
   // Check the number of objects detected
@@ -110,12 +110,12 @@ vector< vector<float> > ExtractFeatures(Mat img, vector<int>* left=NULL, vector<
   }
   RNG rng( 0xFFFFFFFF );
   for(int i=0; i<contours.size(); i++){
-    
+
     Mat mask= Mat::zeros(img.rows, img.cols, CV_8UC1);
     drawContours(mask, contours, i, Scalar(1), FILLED, LINE_8, hierarchy, 1);
     Scalar area_s= sum(mask);
     float area= area_s[0];
-    
+
     if(area>500){ //if the area is greather than min.
 
       RotatedRect r= minAreaRect(contours[i]);
@@ -133,7 +133,7 @@ vector< vector<float> > ExtractFeatures(Mat img, vector<int>* left=NULL, vector<
       if(top!=NULL){
           top->push_back((int)r.center.y);
       }
-      
+
       miw->addImage("Extract Features", mask*255);
       miw->render();
       waitKey(10);
@@ -151,7 +151,7 @@ vector< vector<float> > ExtractFeatures(Mat img, vector<int>* left=NULL, vector<
 Mat removeLight(Mat img, Mat pattern)
 {
   Mat aux;
-  
+
   // Require change our image to 32 float for division
   Mat img32, pattern32;
   img.convertTo(img32, CV_32F);
@@ -181,9 +181,9 @@ Mat preprocessImage(Mat input)
 
   //Apply the light pattern
   Mat img_no_light;
-  img_noise.copyTo(img_no_light); 
-  img_no_light= removeLight(img_noise, light_pattern);  
-  
+  img_noise.copyTo(img_no_light);
+  img_no_light= removeLight(img_noise, light_pattern);
+
   // Binarize image for segment
   threshold(img_no_light, result, 30, 255, THRESH_BINARY);
 
@@ -201,8 +201,8 @@ Mat preprocessImage(Mat input)
 * @param testResponsesData vector where store all labels corresponiding for test, has the num_for_test size with label values
 * @return true if can read the folder images, false in error case
 **/
-bool readFolderAndExtractFeatures(string folder, int label, int num_for_test, 
-  vector<float> &trainingData, vector<int> &responsesData,  
+bool readFolderAndExtractFeatures(string folder, int label, int num_for_test,
+  vector<float> &trainingData, vector<int> &responsesData,
   vector<float> &testData, vector<float> &testResponsesData)
 {
   VideoCapture images;
@@ -221,16 +221,16 @@ bool readFolderAndExtractFeatures(string folder, int label, int num_for_test,
       if(img_index >= num_for_test){
         trainingData.push_back(features[i][0]);
         trainingData.push_back(features[i][1]);
-        responsesData.push_back(label);    
+        responsesData.push_back(label);
       }else{
         testData.push_back(features[i][0]);
         testData.push_back(features[i][1]);
-        testResponsesData.push_back((float)label);    
+        testResponsesData.push_back((float)label);
       }
     }
     img_index++;
   }
-  return true;  
+  return true;
 }
 
 void trainAndTest()
@@ -248,26 +248,36 @@ void trainAndTest()
   readFolderAndExtractFeatures("../data/ring/arandela_%04d.pgm", 1, num_for_test, trainingData, responsesData, testData, testResponsesData);
   // get and process the screw images
   readFolderAndExtractFeatures("../data/screw/tornillo_%04d.pgm", 2, num_for_test, trainingData, responsesData, testData, testResponsesData);
-  
+
   cout << "Num of train samples: " << responsesData.size() << endl;
 
   cout << "Num of test samples: " << testResponsesData.size() << endl;
-  
-  // Merge all data 
+
+  // Merge all data
   Mat trainingDataMat(trainingData.size()/2, 2, CV_32FC1, &trainingData[0]);
   Mat responses(responsesData.size(), 1, CV_32SC1, &responsesData[0]);
 
   Mat testDataMat(testData.size()/2, 2, CV_32FC1, &testData[0]);
   Mat testResponses(testResponsesData.size(), 1, CV_32FC1, &testResponsesData[0]);
-  
+
   // Set up SVM's parameters
-  SVM::Params params;
-  params.svmType    = SVM::C_SVC;
-  params.kernelType = SVM::CHI2;
-  params.termCrit   = TermCriteria(TermCriteria::MAX_ITER, 100, 1e-6);
-  
+  //SVM::Params params;
+  //params.svmType    = SVM::C_SVC;
+  //params.kernelType = SVM::CHI2;
+  //params.termCrit   = TermCriteria(TermCriteria::MAX_ITER, 100, 1e-6);
+
   // Train the SVM
-  svm = StatModel::train<SVM>(trainingDataMat, ROW_SAMPLE, responses, params);
+  //svm = StatModel::train<SVM>(trainingDataMat, ROW_SAMPLE, responses, params);
+
+    // initial SVM
+    cv::Ptr<cv::ml::SVM> svm = cv::ml::SVM::create();
+    svm->setType(cv::ml::SVM::Types::C_SVC);
+    svm->setKernel(cv::ml::SVM::KernelTypes::LINEAR);
+    svm->setTermCriteria(cv::TermCriteria(cv::TermCriteria::MAX_ITER, 100, 1e-6));
+
+    // train operation
+    //svm->train(trainingDataMat, cv::ml::SampleTypes::ROW_SAMPLE, labelsMat);
+    svm->train(trainingDataMat, cv::ml::SampleTypes::ROW_SAMPLE, responses);
 
   if(testResponsesData.size()>0){
     cout << "Evaluation" << endl;
@@ -301,17 +311,17 @@ int main( int argc, const char** argv )
 
   String img_file= parser.get<String>(0);
   String light_pattern_file= "../data/pattern.pgm";
-  
+
   // Check if params are correctly parsed in his variables
   if (!parser.check())
   {
       parser.printErrors();
       return 0;
   }
-  
+
   // Create the Multiple Image Window
   miw= new MultipleImageWindow("Main window", 2, 2, WINDOW_AUTOSIZE);
-  
+
 
   // Load image to process
   Mat img= imread(img_file, 0);
@@ -332,7 +342,7 @@ int main( int argc, const char** argv )
   medianBlur(light_pattern, light_pattern, 3);
 
   trainAndTest();
-  
+
   //// Preprocess image
   Mat pre= preprocessImage(img);
   ////End preprocess
@@ -344,15 +354,15 @@ int main( int argc, const char** argv )
   cout << "Num objects extracted features " << features.size() << endl;
 
   for(int i=0; i< features.size(); i++){
-      
+
     cout << "Data Area AR: " << features[i][0] << " " << features[i][1] << endl;
-    
+
     Mat trainingDataMat(1, 2, CV_32FC1, &features[i][0]);
     cout << "Features to predict: " << trainingDataMat << endl;
     float result= svm->predict(trainingDataMat);
     cout << result << endl;
-    
-    
+
+
     stringstream ss;
     Scalar color;
     if(result==0){
@@ -367,16 +377,16 @@ int main( int argc, const char** argv )
       color= red; // SCREW
       ss << "SCREW";
     }
-        
-    putText(img_output, 
-      ss.str(), 
-      Point2d(pos_left[i], pos_top[i]), 
-      FONT_HERSHEY_SIMPLEX, 
-      0.4, 
+
+    putText(img_output,
+      ss.str(),
+      Point2d(pos_left[i], pos_top[i]),
+      FONT_HERSHEY_SIMPLEX,
+      0.4,
       color);
-    
+
   }
-  
+
   //vector<int> results= evaluate(features);
 
   // Show images
