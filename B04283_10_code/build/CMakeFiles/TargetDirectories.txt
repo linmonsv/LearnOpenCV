@@ -1,0 +1,5 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_10_code/build/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_10_code/build/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_10_code/build/CMakeFiles/SegmentOcrHigh.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_10_code/build/CMakeFiles/SegmentOcr.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_10_code/build/CMakeFiles/Segment.dir
