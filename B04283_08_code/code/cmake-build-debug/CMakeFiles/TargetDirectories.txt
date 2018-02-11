@@ -1,0 +1,7 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/Dilation.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/MorphologicalOperations.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/Erosion.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/BackgroundSubtraction.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_08_code/code/cmake-build-debug/CMakeFiles/FrameDifferencing.dir

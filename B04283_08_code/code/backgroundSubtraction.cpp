@@ -4,6 +4,10 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/video/background_segm.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
+
+#include <opencv2/bgsegm.hpp>
+#include <opencv2/opencv.hpp>
+
 #include <iostream>
 #include <sstream>
 
@@ -43,10 +47,10 @@ int main(int argc, char* argv[])
     namedWindow("FG Mask MOG 2");
     
     // Create MOG Background Subtractor object
-    pMOG= new BackgroundSubtractorMOG();
+    pMOG= cv::bgsegm::createBackgroundSubtractorMOG();//new BackgroundSubtractorMOG();
     
     // Create MOG2 Background Subtractor object
-    pMOG2 = new BackgroundSubtractorMOG2();
+    pMOG2 = createBackgroundSubtractorMOG2(20, 16, true);//new BackgroundSubtractorMOG2();
     
     // Scaling factor to resize the input frames from the webcam
     float scalingFactor = 0.75;
@@ -61,10 +65,10 @@ int main(int argc, char* argv[])
         resize(frame, frame, Size(), scalingFactor, scalingFactor, INTER_AREA);
         
         // Update the MOG background model based on the current frame
-        pMOG->operator()(frame, fgMaskMOG);
+        pMOG->apply(frame, fgMaskMOG);
         
         // Update the MOG2 background model based on the current frame
-        pMOG2->operator()(frame, fgMaskMOG2);
+        pMOG2->apply(frame, fgMaskMOG2);
         
         // Show the current frame
         //imshow("Frame", frame);
