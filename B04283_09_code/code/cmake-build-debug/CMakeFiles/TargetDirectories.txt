@@ -1,0 +1,8 @@
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/FarnebackTracker.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/HarrisCornersTracker.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/ColoredObjectTracker.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/GoodFeaturesToTrack.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/CamshiftTracker.dir
+/Users/water/Documents/GitHub/LearnOpenCV/B04283_09_code/code/cmake-build-debug/CMakeFiles/LucasKanadeTracker.dir
