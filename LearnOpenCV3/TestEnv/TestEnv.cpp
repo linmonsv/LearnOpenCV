@@ -8,7 +8,20 @@ int main()
 {
     std::cout << "Hello World!\n";
     cv::Mat imageMat = cv::imread("lena.png");
-    cv::imshow("LENA", imageMat);
+    if(!imageMat.empty())
+        cv::imshow("LENA", imageMat);
+   
+    cv::Mat frame;
+    cv::VideoCapture cap;
+    cap.open(0);
+    if (cap.isOpened()) {
+        for(;;) {
+            cap >> frame;   
+            cv::imshow("Camera", frame);
+            if (cv::waitKey(33) >= 0) break;
+        }
+    }
+
     cv::waitKey(0);
 }
 
